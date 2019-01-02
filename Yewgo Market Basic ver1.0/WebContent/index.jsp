@@ -9,5 +9,6 @@
 <body>
 	<a href="${pageContext.request.contextPath}/product?method=findAll">点击查看全部商品</a>
 	<a href="${pageContext.request.contextPath}/product?method=addUI">点击添加商品</a>
+	<a href="${pageContext.request.contextPath}/product?method=page&pageNumber=1">分页查询</a>
 </body>
 </html>

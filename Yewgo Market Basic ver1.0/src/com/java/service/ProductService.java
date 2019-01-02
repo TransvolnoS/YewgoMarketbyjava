@@ -3,6 +3,7 @@ package com.java.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.java.bean.PageBean;
 import com.java.bean.Product;
 import com.java.dao.ProductDao;
 import com.java.utils.DataSourceUtils;
@@ -58,10 +59,15 @@ public class ProductService {
 		}
 	}
 
-	public List<Product> search(String name, String kw) throws SQLException {
+	public PageBean<Product> getPageBean(int pageNumber, int pageSize) throws SQLException {
 		// TODO Auto-generated method stub
+		PageBean<Product> pb = new PageBean<>(pageNumber, pageSize);
 		ProductDao pd = new ProductDao();
-		return pd.search(name,kw);
+		List<Product>list=pd.getList(pb);
+		pb.setList(list);
+		int count=pd.getCount();
+		pb.setPageCount(count);
+		return pb;
 	}
 
 }

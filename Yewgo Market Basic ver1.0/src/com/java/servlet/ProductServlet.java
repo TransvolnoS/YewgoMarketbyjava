@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.java.bean.PageBean;
 import com.java.bean.Product;
 import com.java.service.ProductService;
 
@@ -39,29 +40,31 @@ public class ProductServlet extends HttpServlet {
 			deletePro(request,response);
 		}else if("delCheck".equals(method)) {
 			delCheck(request,response);
-		}else if("search".equals(method)) {
-			search(request,response);
+		}else if("page".equals(method)) {
+			try {
+				page(request,response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 
-	private void search(HttpServletRequest request, HttpServletResponse response) {
+	private void page(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		try {
-			String name = request.getParameter("name");
-			String kw = request.getParameter("kw");
+			int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			int pageSize=3;
 			ProductService ps = new ProductService();
-			List<Product>list= ps.search(name,kw);
-			request.setAttribute("list", list);
-			request.setAttribute("name", name);
-			request.setAttribute("kw", kw);
-			request.getRequestDispatcher("/list.jsp").forward(request, response);
-		} catch (SQLException e) {
+			PageBean<Product>pb=ps.getPageBean(pageNumber,pageSize);
+			request.setAttribute("pb", pb);
+			request.getRequestDispatcher("/list_page.jsp").forward(request, response);
+		}  catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("msg", "∑÷“≥¥ÌŒÛ");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 

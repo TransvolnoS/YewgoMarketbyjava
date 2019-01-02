@@ -27,16 +27,16 @@
 </tr>
 
 
-<c:if test="${empty list}">
+<c:if test="${empty pb.list}">
 <tr>
 <td colspan="9">暂无此商品</td>
 </tr>
 </c:if>
 
-<c:if test="${not empty list}">
+<c:if test="${not empty pb.list}">
 <form action="${pageContext.request.contextPath }/product" method="post" id="formId">
 <input type="hidden" name="method" value="delCheck">
-<c:forEach items="${list}" var="pro">
+<c:forEach items="${pb.list}" var="pro">
 <tr>
 <td><input type="checkbox" name="id" value="${pro.pid}"></td>
 <td><img src="${pageContext.request.contextPath}/${pro.pimage} "height="75px"></td>
@@ -56,6 +56,16 @@
 </c:if>
 
 </table>
+
+<center>
+<c:if test="${pb.pageNumber!=1}"><a href="${pageContext.request.contextPath}/product?method=page&pageNumber=${pb.pageNumber-1}">上一页</a></c:if>
+<c:forEach begin="1" end="${pb.pageTotal}" step="1" var="n">
+<c:if test="${pb.pageNumber==n}">${n}</c:if>
+<c:if test="${pb.pageNumber!=n}"><a href="${pageContext.request.contextPath}/product?method=page&pageNumber=${n}">${n}</a></c:if>
+</c:forEach>
+<c:if test="${pb.pageNumber!=pb.pageTotal}"><a href="${pageContext.request.contextPath}/product?method=page&pageNumber=${pb.pageNumber+1}">下一页</a></c:if>
+第${pb.pageNumber}页/共${pb.pageTotal}页
+</center>
 </body>
 <script type="text/javascript">
 function del(id){
